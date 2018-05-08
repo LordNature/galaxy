@@ -25,4 +25,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [LordNature](https://github.com/LordNature) LordNature - creator, maintainer
+- [LordNature](https://github.com/LordNature) - creator, maintainer

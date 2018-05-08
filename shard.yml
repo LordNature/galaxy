@@ -1,0 +1,13 @@
+name: galaxy
+version: 0.1.0
+
+authors:
+  - LordNature <lordnature@protonmail.com>
+
+targets:
+  galaxy:
+    main: src/galaxy.cr
+
+crystal: 0.24.1
+
+license: MIT
