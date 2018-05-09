@@ -1,6 +1,8 @@
+require "kemal"
 require "./galaxy/*"
 
-# TODO: Write documentation for `Galaxy`
 module Galaxy
-  # TODO: Put your code here
+  get "/" do
+    view(home)
+  end
 end
