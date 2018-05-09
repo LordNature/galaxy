@@ -6,3 +6,5 @@ module Galaxy
     view(home)
   end
 end
+
+Kemal.run

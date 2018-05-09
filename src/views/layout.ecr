@@ -3,31 +3,19 @@
 		<meta charst="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>&gt; galaxy</title>
-		<style type="text/css">
-			body {
-				background-color: #FCFCFC;
-				margin: 40px auto;
-				max-width: 800px;
-				line-height: 1.6;
-				font-size: 18px;
-				color: #444;
-				padding: 0 10px;
-			}
-			h1, h2, h3 {
-				line-height: 1.2
-			}
-		</style>
+		<link href="css/main.min.css" rel="stylesheet">
 	</head>
 	<body>
 		<header>
 			<h1>galaxy</h1>
 			<aside>The galaxy awaits...</aside>
+			<hr>
 		</header>
 		<main>
 		<%= content %>
 		</main>
 		<footer>
-			&copy; <% Time.now.year %> LordNature
+			<span class="copyright">&copy; <% Time.now.year %> LordNature &mdash; <a href="https://github.com/LordNature/emerald">powered by emerald</span>
 		</footer>
 	</body>
 </html>
