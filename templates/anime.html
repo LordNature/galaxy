@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="terminal">
+		<h1>Kitsu Anime List</h1>
+		<p>
+			{{ kitsu['attributes']['name'] }}
+			<br><br>
+			{{ totalAnimeTime }}
+		</p>
+		<p><img src="{{ kitsu['attributes']['avatar']['original'] }}"></p>
+	</div>
+{% endblock %}
