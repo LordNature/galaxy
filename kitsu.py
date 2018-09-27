@@ -1,4 +1,4 @@
-import requests, json
+import requests, json, collections
 
 # Fetches Kitsu API
 def fetchUser(username):
@@ -14,23 +14,23 @@ def fetchUser(username):
 		return None
 
 def minsToString(mins):
-	dateTypes = {
-		'year': 525600, # 24*60*365
-		'month': 43200, # 24*60*30
-		'day': 1440, # 24*60
-		'hour': 60,
-		'minute': 1
-	}
-	result = []
+	# ORDERED list
+	date = [
+		('year', 525600),
+		('month', 43200),
+		('day', 1440),
+		('hour', 60),
+		('minute', 1)
+	]
 
-	# I obviously broke something in this.
-	for types in dateTypes:
-		time = mins // dateTypes[types]
-		if time == 0:
-			result.append(time)
-		elif time == 1:
-			result.append(" " + str(time) + " " + types)
+	date = collections.OrderedDict(date)
+
+	result = []
+	for name in date:
+		time = mins // date[name]
+		if time == 1:
+			result.append(str(time) + " " + name)
 		elif time >= 2:
-			result.append(" " + str(time) + " " + types + "s")
-		mins %= dateTypes[types]
+			result.append(str(time) + " " + name + "s")
+		mins %= date[name]
 	return result

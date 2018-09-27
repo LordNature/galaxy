@@ -5,7 +5,7 @@
 		<p>
 			{{ kitsu['attributes']['name'] }}
 			<br><br>
-			{{ totalAnimeTime }}
+			{{ ', '.join(totalAnimeTime) }}
 		</p>
 		<p><img src="{{ kitsu['attributes']['avatar']['original'] }}"></p>
 	</div>
