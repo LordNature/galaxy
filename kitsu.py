@@ -13,6 +13,7 @@ def fetchUser(username):
 	else:
 		return None
 
+# Converts minutes to readable format
 def minsToString(mins):
 	# ORDERED list
 	date = [
