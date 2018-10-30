@@ -23,9 +23,10 @@ def fetchPhrase():
 # simplify both into one function
 def fetchLine(fileName):
 	with open(fileName, 'r') as f:
-		#line = next(f)
-		#randLine = line # fixes `UnboundLocalError: local variable 'phrase' referenced before assignment`
-		for count, line in enumerate(f, 1): # changing to 1 from 2 also resolves `UnboundLocalError`
+		# Initiaizes vars in rare case of missing declaration on return
+		line = next(f)
+		randLine = line
+		for count, line in enumerate(f, 1):
 			if random.randrange(count): continue
 			randLine = line
 		return randLine
