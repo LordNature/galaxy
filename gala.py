@@ -25,7 +25,7 @@ def anime():
 
 @app.route('/music')
 def music():
-	return render_template('music.html', music=fetchVideo(), oblivion=fetchPhrase())
+	return render_template('music.html', music=fetchLine('static/videos.txt'), oblivion=fetchLine('static/phrase.txt'))
 
 if __name__ == '__main__':
 	app.run(debug=True)

@@ -6,7 +6,26 @@ def fetchVideo():
 		music = f.readlines()
 	return random.choice(music)
 
-def fetchPhrase():
+# Less efficient?
+def fetchPhraseOld():
 	with open('static/phrase.txt', 'r') as f:
 		phrase = f.readlines()
 	return random.choice(phrase)
+
+# More efficient?
+def fetchPhrase():
+	with open('static/phrase.txt', 'r') as f:
+		for count, line in enumerate(f, 2):
+			if random.randrange(count): continue
+			phrase = line
+		return phrase
+
+# simplify both into one function
+def fetchLine(fileName):
+	with open(fileName, 'r') as f:
+		#line = next(f)
+		#randLine = line # fixes `UnboundLocalError: local variable 'phrase' referenced before assignment`
+		for count, line in enumerate(f, 1): # changing to 1 from 2 also resolves `UnboundLocalError`
+			if random.randrange(count): continue
+			randLine = line
+		return randLine
