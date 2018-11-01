@@ -29,5 +29,9 @@ def anime():
 def music():
 	return render_template('music.html', music=fetchLine('static/videos.txt'), oblivion=fetchLine('static/phrase.txt'))
 
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
+
 if __name__ == '__main__':
 	app.run(debug=True)
