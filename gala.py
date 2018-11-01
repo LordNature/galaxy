@@ -8,6 +8,10 @@ import time, subprocess, re
 app = Flask(__name__)
 year = time.strftime('%Y')
 
+# Anime
+kitsu = fetchUser('Nature')['data'][0]
+totalAnime = minsToString(kitsu['attributes']['lifeSpentOnAnime'])
+
 @app.route('/')
 def home():
 	with open('static/pi.txt', 'r') as f:
@@ -19,8 +23,6 @@ def home():
 
 @app.route('/anime')
 def anime():
-	kitsu = fetchUser('Nature')['data'][0]
-	totalAnime = minsToString(kitsu['attributes']['lifeSpentOnAnime'])
 	return render_template('anime.html', year=year, kitsu=kitsu, totalAnimeTime=totalAnime)
 
 @app.route('/music')
