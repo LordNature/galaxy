@@ -1,5 +1,3 @@
-README.md
-setup.py
 Galaxy.egg-info/PKG-INFO
 Galaxy.egg-info/SOURCES.txt
 Galaxy.egg-info/dependency_links.txt

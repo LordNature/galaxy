@@ -1,7 +1,6 @@
 # Init file for gala
 from flask import Flask, render_template
-from kitsu import *
-from music import *
+import kitsu, file
 import time, subprocess, re
 
 
@@ -9,8 +8,8 @@ app = Flask(__name__)
 year = time.strftime('%Y')
 
 # Anime
-kitsu = fetchUser('Nature')['data'][0]
-totalAnime = minsToString(kitsu['attributes']['lifeSpentOnAnime'])
+kitsuData = kitsu.fetchUser('Nature')['data'][0]
+totalAnime = kitsu.minsToString(kitsuData['attributes']['lifeSpentOnAnime'])
 
 @app.route('/')
 def home():
@@ -27,7 +26,7 @@ def anime():
 
 @app.route('/music')
 def music():
-	return render_template('music.html', music=fetchLine('static/videos.txt'), oblivion=fetchLine('static/phrase.txt'))
+	return render_template('music.html', music=file.fetchLine('static/videos.txt'), oblivion=file.fetchLine('static/phrase.txt'))
 
 @app.errorhandler(404)
 def not_found(error):
