@@ -8,8 +8,8 @@ app = Flask(__name__)
 year = time.strftime('%Y')
 
 # Anime
-kitsuData = kitsu.fetchUser('Nature')['data'][0]
-totalAnime = kitsu.minsToString(kitsuData['attributes']['lifeSpentOnAnime'])
+kitsu_data = kitsu.fetch_user('Nature')['data'][0]
+total_anime = kitsu.mins_to_string(kitsu_data['attributes']['lifeSpentOnAnime'])
 
 @app.route('/')
 def home():
@@ -22,11 +22,11 @@ def home():
 
 @app.route('/anime')
 def anime():
-	return render_template('anime.html', year=year, kitsu=kitsu, totalAnimeTime=totalAnime)
+	return render_template('anime.html', year=year, kitsu=kitsu_data, totalAnimeTime=total_anime)
 
 @app.route('/music')
 def music():
-	return render_template('music.html', music=file.fetchLine('static/videos.txt'), oblivion=file.fetchLine('static/phrase.txt'))
+	return render_template('music.html', music=file.fetch_line('static/videos.txt'), oblivion=file.fetch_line('static/phrase.txt'))
 
 @app.errorhandler(404)
 def not_found(error):

@@ -1,7 +1,7 @@
 import requests, json, collections
 
 # Fetches Kitsu API
-def fetchUser(username):
+def fetch_user(username):
 	response = requests.get(
 		'https://kitsu.io/api/edge/users?filter[name]=' + username,
 		headers = {
@@ -14,7 +14,7 @@ def fetchUser(username):
 		return None
 
 # Converts minutes to readable format
-def minsToString(mins):
+def mins_to_string(mins):
 	# ORDERED list
 	date = [
 		('year', 525600),
