@@ -1,6 +1,0 @@
-Galaxy.egg-info/PKG-INFO
-Galaxy.egg-info/SOURCES.txt
-Galaxy.egg-info/dependency_links.txt
-Galaxy.egg-info/not-zip-safe
-Galaxy.egg-info/requires.txt
-Galaxy.egg-info/top_level.txt
