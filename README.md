@@ -2,10 +2,10 @@
 Website using Flask to run on a Raspberry Pi with minimal overhead.
 
 ## Features
-[ ] Blog
-[x] Homepage
-[ ] Music from Aersia & Stew.moe
-[ ] Recent anime listings
+* [ ] Blog
+* [x] Homepage
+* [ ] Music from Aersia & Stew.moe
+* [ ] Recent anime listings
 
 ## Usage
 1. Install Python & Pip
