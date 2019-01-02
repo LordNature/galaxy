@@ -1,9 +1,10 @@
+import os
 from setuptools import setup, find_packages
 
 setup(
-	name='Galaxy',
-	version='1.0',
-	long_description='Description',
+	name='galaxy',
+	version='0.1',
+	long_description='galaxy is a personal website to display information.',
 	packages=find_packages(),
 	include_package_data=True,
 	zip_safe=False,
