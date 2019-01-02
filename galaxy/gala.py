@@ -29,7 +29,7 @@ def index():
 @bp.route('/anime')
 def list_anime():
 	error = None
-
+	
 	kitsu_data = fetch_user('Nature')['data'][0]
 	total_anime = mins_to_string(kitsu_data['attributes']['lifeSpentOnAnime'])
 
@@ -40,7 +40,7 @@ def list_anime():
 
 	return render_template('anime.html', year=year, kitsu=kitsu_data, totalAnimeTime=total_anime)
 
-""" Music area
-@app.route('/music')
+# Music area
+@bp.route('/music')
 def music():
-	return render_template('music.html', music=file.fetch_line('static/videos.txt'), oblivion=file.fetch_line('static/phrase.txt'))"""
+	return render_template('music.html', music=fetch_line('galaxy/static/videos.txt'), oblivion=fetch_line('galaxy/static/phrase.txt'))
