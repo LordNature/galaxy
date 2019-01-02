@@ -2,6 +2,7 @@
 /env/
 /instance/
 /build/
+/dist/
 *.css
 *.css.map
 *.egg
