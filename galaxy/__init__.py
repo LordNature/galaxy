@@ -5,7 +5,19 @@ from flask import Flask, render_template
 from . import gala, kitsu, file
 
 def create_app(test_config=None):
-	app = Flask(__name__)
+	# Creates & configs
+	app = Flask(__name__, instance_relative_config=True)
+	app.config.from_mapping(
+		SECRET_KEY='dev', # randomize this in production
+	)
+
+	if test_config is None:
+		# load the instance config, if it exists, when not testing
+		app.config.from_pyfile('config.py', silent=True)
+	else:
+		# load the test config if passed in
+		app.config.from_mapping(test_config)
+
 
 	@app.errorhandler(404)
 	def not_found(error):

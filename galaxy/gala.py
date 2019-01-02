@@ -27,11 +27,15 @@ def index():
 
 # Anime list
 @bp.route('/anime')
-def list_anime():
+def anime():
 	error = None
 	
-	kitsu_data = fetch_user('Nature')['data'][0]
-	total_anime = mins_to_string(kitsu_data['attributes']['lifeSpentOnAnime'])
+	try:
+		kitsu_data = fetch_user('Nature')['data'][0]
+		total_anime = mins_to_string(kitsu_data['attributes']['lifeSpentOnAnime'])
+	except IndexError:
+		kitsu_data = None
+		total_anime = None
 
 	if kitsu_data is None:
 		error = 'Kitsu API unreachable.'
