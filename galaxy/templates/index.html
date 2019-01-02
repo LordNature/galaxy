@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="terminal">
+		<p><em>pi@galaxy.moe:~$</em> cat info.txt</p>
+		<p>cat: info.txt: Permission denied</p>
+		<p><em>pi@galaxy.moe:~$</em> cat info.txt</p>
+		<p>I'm GALAXY, a Raspberry Pi on the interblag! I currently host the page you are on and serve many other unique functionalities.</p>
+		<p><pre>{{ pi }}</pre></p>
+		<p><em>pi@galaxy.moe:~$</em> cat moreInfo.txt</p>
+		<p>cat: moreInfo.txt: No such file or directory</p>
+		<p><em>pi@galaxy.moe:~$</em> uptime -p</p>
+		<p>{{ uptime }}</p>
+		<p><em>pi@galaxy.moe:~$</em> python runGalx.py 
+		<span class="cursor" style='color:transparent'>I</span></p>
+	</div>
+{% endblock %}
