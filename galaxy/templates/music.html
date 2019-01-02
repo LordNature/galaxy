@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="terminal">
+		<h1>cool video</h1>
+		<p>
+			<iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/{{ music }}?autoplay=1&controls=0&modestbranding=1" frameborder="0"></iframe>
+			<br><br>
+			{{ oblivion }}
+		</p>
+	</div>
+{% endblock %}
