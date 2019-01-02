@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<meta charst="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>&gt; galaxy</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+	</head>
+	<body>
+		<header>
+			<h1>galaxy 銀河</h1>
+			<aside>The <a href="{{ url_for('index') }}">galaxy</a> awaits...&emsp;<a href="{{ url_for('gala.anime') }}">anime</a>&emsp;<a href="{{ url_for('gala.music') }}">music</a></aside>
+			<hr>
+		</header>
+		<main>
+			{% for message in get_flashed_messages() %}
+				<div class="flash">ERROR: {{ message }}</div>
+			{% endfor %}
+
+			{% block content %}
+			{% endblock %}
+		</main>
+		<footer>
+			<span class="copyright">&copy; {{ year }} LordNature &mdash; <a href="https://github.com/LordNature/galaxy">made in flask</span>
+		</footer>
+	</body>
+</html>
