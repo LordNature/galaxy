@@ -2,7 +2,7 @@
 import os
 
 from flask import Flask, render_template
-from . import gala, kitsu, file
+from galaxy import gala, kitsu, file
 
 def create_app(test_config=None):
 	# Creates & configs
