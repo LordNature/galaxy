@@ -1,11 +1,26 @@
+{% set bg_select = 'bgs/bg-{0:d}.png'.format(range(1, 5) | random) %}
 <html>
 	<head>
 		<meta charst="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>&gt; galaxy</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+		<style>
+		.bg-container {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 50%;
+			z-index: -1;
+			background: url("{{ url_for('static', filename=bg_select) }}");
+			background-size: cover;
+			background-repeat: none;
+		}
+	</style>
 	</head>
 	<body>
+		<div class="bg-container"></div>
 		<header>
 			<h1>galaxy 銀河</h1>
 			<aside>The <a href="{{ url_for('index') }}">galaxy</a> awaits...&emsp;<a href="{{ url_for('gala.anime') }}">anime</a>&emsp;<a href="{{ url_for('gala.music') }}">music</a></aside>

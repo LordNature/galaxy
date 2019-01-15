@@ -1,0 +1,81 @@
+<!-- this code is terrible -->
+{% extends "base.html" %}
+{% block content %}
+	<style>
+		header {
+			background: #222;
+			position: fixed;
+			top: 0;
+			width: 100%;
+			z-index: 1;
+		}
+
+		.controls {
+			position: fixed;
+			height: 40px;
+			right: 0;
+			bottom: 0;
+			margin-right: 30%;
+			width: auto;
+			z-index: 1;
+		}
+
+		.button {
+			cursor: pointer;
+			height: 100%;
+			padding: 0 10px;
+			float: left;
+			line-height: 40px;
+		}
+
+		.playlist {
+			display: table;
+			left: 15;
+			position: absolute;
+			width: 60%;
+			height: 25%;
+			border: 1px solid #2799c8;
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			margin: 50px auto;
+		}
+
+		.playlist div {
+			border: 1px solid #2799c8;
+			color: #79bdd8;
+			padding: 5px;
+			font-size: 11pt;
+			cursor: pointer;
+		}
+
+		.playlist div.selected {
+			background-color: #79bdd8;
+			color: #fff;
+		}
+
+		.playlist div:hover {
+			background-color: #79bdd8;
+			color: #fff;
+		}
+
+		#splaylist {
+			border: 1px solid #090;
+			background-color: transparent;
+			height: 100%;
+			font-size: 12pt;
+			padding: 0;
+			color: #2799c8;
+			border: 0;
+		}
+	</style>
+	<section class="controls">
+		<div class="button next">next</div>
+		<audio class="button" controls></audio>
+		<div class="button"><select id="splaylist"></select></div>
+	</section>
+
+	<section class="playlist"></section>
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
+	<script src="{{ url_for('static', filename='vip.js') }}"></script>
+{% endblock %}

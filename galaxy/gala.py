@@ -48,3 +48,8 @@ def anime():
 @bp.route('/music')
 def music():
 	return render_template('music.html', music=fetch_line('galaxy/static/videos.txt'), oblivion=fetch_line('galaxy/static/phrase.txt'))
+
+# Aersia music
+@bp.route('/vip')
+def vip():
+	return render_template('vip.html')

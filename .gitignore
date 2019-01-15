@@ -8,3 +8,5 @@
 *.egg
 *.egg-info
 *.pyc
+*.js
+/static/bgs/
