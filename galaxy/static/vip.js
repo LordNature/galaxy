@@ -1,1 +1,273 @@
-var g_playlist=null,g_previous=[],g_previous_idx=0,MAX_HISTORY=3,PLAYLISTS={VIP:"https://vip.aersia.net/roster.xml",Mellow:"https://vip.aersia.net/roster-mellow.xml",Source:"https://vip.aersia.net/roster-source.xml",Exiled:"https://vip.aersia.net/roster-exiled.xml",WAP:"https://wap.aersia.net/roster.xml",CPP:"https://cpp.aersia.net/roster.xml"},DEFAULT_PLAYLIST="VIP";function createTrackId(t){var l=$("#splaylist").val();return t=(t=t.creator+" - "+t.title).replace(/[^a-zA-Z0-9-]/g,"_"),encodeURIComponent(l)+":"+t}function parseTrackId(t){var l=t.split(":"),e="",a="";return l.length<2?(e=decodeURIComponent(t),a=""):(l.pop(),e=decodeURIComponent(l.join(":")),a=t),e in PLAYLISTS?{playlist:e,track:a}:null}function parsePlaylist(t){return result=[],$(t).find("playlist trackList > track").each(function(){track={creator:$(this).find("creator").text(),title:$(this).find("title").text(),location:$(this).find("location").text()},result.push(track)}),result}function playPreviousTrack(){null!==g_playlist&&(g_previous_idx<=0?g_previous_idx=0:g_previous_idx-=1,playTrack(g_previous[g_previous_idx]))}function playNextTrack(){if(null!==g_playlist){for(g_previous_idx>=g_previous.length-1?(g_previous.push(Math.floor(Math.random()*g_playlist.length)),g_previous_idx=g_previous.length-1):g_previous_idx+=1;g_previous.length>MAX_HISTORY;)g_previous.shift(),g_previous_idx-=1;playTrack(g_previous[g_previous_idx])}}function playTrack(t){var l=g_playlist[t];$(".playlist .selected").removeClass("selected");var e=$(".playlist div").eq(t);e.addClass("selected"),window.location.hash=createTrackId(l),$("audio").attr("src",l.location),$("audio").trigger("play"),$("html, body").stop().animate({scrollTop:e.offset().top-$("header").height()},1e3)}function loadNewPlaylist(t,l){var e=PLAYLISTS[t],a=l;localStorage.playlist=t,$("#splaylist").val(t),$(".playlist div").remove(),g_previous=[],g_previous_idx=0,g_playlist=null,$.ajax({url:e,success:function(t){g_playlist=parsePlaylist(t);for(var l=0;l<g_playlist.length;++l){var e=g_playlist[l],i=$("<div>");i.text(e.creator+" - "+e.title),i.attr("id",createTrackId(e)),i.appendTo(".playlist"),function(t){i.click(function(){playTrack(t)})}(l)}var r=$(".playlist div").filter(function(t,l){return l.id==a});r.length>0?r[0].click():playNextTrack()}})}function populatePlaylistOptions(){for(var t in PLAYLISTS){var l=$("<option>");l.val(t),l.text(t),$("#splaylist").append(l)}}$(function(){$("audio").on("error",function(){playNextTrack()}),$("audio").on("ended",function(){playNextTrack()}),$(".next").click(function(){playNextTrack(!0)}),$(".previous").click(function(){playPreviousTrack()}),$("#splaylist").on("change",function(){loadNewPlaylist($("#splaylist").val(),"")}),populatePlaylistOptions();var t=DEFAULT_PLAYLIST,l="";null!==localStorage.getItem("volume")&&($("audio").get(0).volume=localStorage.getItem("volume")),null!==localStorage.getItem("playlist")&&localStorage.getItem("playlist")in PLAYLISTS&&(t=localStorage.getItem("playlist"));var e=parseTrackId(window.location.hash.substr(1));null!==e&&(t=e.playlist,l=e.track),loadNewPlaylist(t,l)});
+// converted to native js
+const audio = document.querySelector('audio');
+
+let g_playlist = null;
+let g_previous = [];
+let g_previous_idx = 0;
+const MAX_HISTORY = 1;
+
+const PLAYLISTS = {
+	'VIP': 'https://vip.aersia.net/roster.xml',
+	'Mellow': 'https://vip.aersia.net/roster-mellow.xml',
+	'Source': 'https://vip.aersia.net/roster-source.xml',
+	'Exiled': 'https://vip.aersia.net/roster-exiled.xml',
+	'WAP': 'https://wap.aersia.net/roster.xml',
+	'CPP': 'https://cpp.aersia.net/roster.xml',
+};
+
+const DEFAULT_PLAYLIST = 'VIP';
+
+// Creates encoded URI for location hash
+function create_trackID(track) {
+	let playlist = document.querySelector('#splaylist').value;
+	let trackID = track.creator + ' - ' + track.title;
+	trackID = trackID.replace(/[^a-zA-Z0-9-]/g, '_');
+
+	return encodeURIComponent(playlist) + ':' + trackID;
+}
+
+// Decodes encoded URI
+function parse_trackID(trackID) {
+	let pieces = trackID.split(':');
+	let playlist = null;
+	let track = null;
+
+	if(pieces.length < 2) {
+		playlist = decodeURIComponent(trackID);
+		track = '';
+	} else {
+		pieces.pop();
+		playlist = decodeURIComponent(pieces.join(':'));
+		track = trackID;
+	}
+
+	if(!(playlist in PLAYLISTS))
+		return null;
+
+	return {
+		playlist: playlist,
+		track: track
+	};
+}
+
+function parse_XML(data) {
+	result = [];
+	
+	playlist = data.getElementsByTagName('track');
+	
+	for (var i = 0; i < playlist.length; ++i) {
+		track = {
+			creator: playlist[i].getElementsByTagName('creator')[0].firstChild.nodeValue,
+			title: playlist[i].getElementsByTagName('title')[0].firstChild.nodeValue,
+			location: playlist[i].getElementsByTagName('location')[0].firstChild.nodeValue
+		}
+		result.push(track);
+	}
+
+	return result;
+}
+
+function load_XML(playlistURL, callback) {
+	var xhttp = new XMLHttpRequest();
+	xhttp.open("GET", playlistURL, true);
+	xhttp.responseType = "document";
+	xhttp.onreadystatechange = function () {
+		if(this.readyState == xhttp.DONE && this.status == 200) {
+			if(typeof callback === 'function')
+				callback(xhttp.response);
+		}
+	}
+	xhttp.onerror = function() {
+		console.log("Error while getting XML.");
+	}
+	xhttp.send();
+}
+
+function playNextTrack () {
+	if (g_playlist === null)
+		return;
+
+	if (g_previous_idx >= (g_previous.length - 1)) {
+		g_previous.push (Math.floor (Math.random () * g_playlist.length));
+		g_previous_idx = g_previous.length - 1;
+	}
+	else {
+		g_previous_idx += 1;
+	}
+
+	while (g_previous.length > MAX_HISTORY) {
+		g_previous.shift ();
+		g_previous_idx -= 1;
+	}
+
+	playTrack (g_previous[g_previous_idx]);
+}
+
+function playTrack (trackid) {
+	var track = g_playlist[trackid];
+
+	//row.appendChild(newContent);  
+	//var currentDiv = document.querySelector('.playlist'); 
+	//row.setAttribute('id', create_trackID(track));
+
+	if (document.querySelector('.selected'))
+		document.querySelector('.selected').classList.remove('selected');
+
+	//$('.playlist .selected').removeClass ('selected');
+
+
+	var trackelem = document.querySelectorAll(".playlist > div")[trackid];
+	trackelem.classList.add('selected');
+
+	//var trackelem = $('.playlist div').eq (trackid);
+	//trackelem.addClass ('selected');
+
+	window.location.hash = create_trackID(track);
+	audio.setAttribute('src', track.location);
+	//$('audio').attr ('src', track.location);
+	//$('audio').trigger ('play');
+	audio.play();
+	trackelem.scrollIntoView({behavior: "smooth", block: "center"});
+
+	/*$('html, body').stop().animate ({
+		scrollTop: trackelem.offset().top - $('header').height()
+	}, 1000);*/
+}
+
+function loadNewPlaylist (playlist, track) {
+	var playlistURL = PLAYLISTS[playlist];
+	var selected_track = track;
+
+	localStorage['playlist'] = playlist;
+	document.querySelector('#splaylist').value = playlist;
+
+	// Clear
+	document.querySelectorAll(".playlist > div").forEach(e => e.parentNode.removeChild(e));
+
+	g_previous = [];
+	g_previous_idx = 0;
+	g_playlist = null;
+
+
+	load_XML(playlistURL, function(data) {
+		// Parse track list
+		g_playlist = parse_XML(data);
+
+		// Build HTML table for track listing
+		for (var i = 0; i < g_playlist.length; ++i) {
+			var track = g_playlist[i];
+
+			// create a new div element 
+			var row = document.createElement('div'); 
+			// and give it some content 
+			var newContent = document.createTextNode(track.creator + ' - ' + track.title); 
+			// add the text node to the newly created div
+			row.appendChild(newContent);  
+
+			// add the newly created element and its content into the DOM 
+			var currentDiv = document.querySelector('.playlist'); 
+			//document.body.insertBefore(row, currentDiv); 
+			currentDiv.appendChild(row);
+
+			//row.textContent = track.creator + ' - ' + track.title;
+			row.setAttribute('id', create_trackID(track));
+
+			/*
+			var row = $('<div>');
+			row.text (track.creator + ' - ' + track.title);
+			row.attr ('id', create_trackID(track));*/
+
+			//row.appendTo ('.playlist');
+
+			(function (i) {
+				row.addEventListener('click', function (){
+					playTrack(i);
+				}); 
+			}) (i);
+		}
+
+		// Select specified track if possible, or play random track if not.
+		var playlist_tracks = document.querySelectorAll(".playlist > div");
+		let selection = 0;
+
+		for (var i = 0; i < playlist_tracks.length; ++i) {
+			if (playlist_tracks[i].id == selected_track){
+				selection = playlist_tracks[i];
+			}
+		}
+
+		if (selection != 0) {
+			selection.click();
+		} else {
+			playNextTrack();
+		}
+
+
+		/*var elements = $('.playlist div').filter (function (idx, elem) {
+			console.log(elem.id);
+			return elem.id == selected_track;
+		});*/
+
+		/*if (elements.length > 0) {
+			elements[0].click ();
+		} else {
+			
+		}*/
+	});
+
+};
+
+function populatePlaylistOptions () {
+	for (var name in PLAYLISTS) {
+		var option = document.createElement('option'); 
+		option.value = name;
+		option.textContent = name;
+
+		document.querySelector('#splaylist').appendChild(option);
+	}
+}
+
+window.onload = function() {
+	audio.addEventListener('error', function (){
+		playNextTrack();
+	});
+
+	audio.addEventListener('ended', function (){
+		playNextTrack();
+	});
+
+	document.querySelector('.next').addEventListener('click', function (){
+		playNextTrack(true);
+	}); 
+
+	document.querySelector('#splaylist').addEventListener('change', function (){
+		var playlist = document.querySelector('#splaylist').value;
+		loadNewPlaylist (playlist, '');
+	}); 
+
+	populatePlaylistOptions ();
+
+	// Default playlist, random track
+	var playlist = DEFAULT_PLAYLIST;
+	var track = '';
+
+	/* Load settings */
+	if (localStorage.getItem ('volume') !== null)
+		audio.volume = localStorage.getItem('volume');
+
+	if (localStorage.getItem ('playlist') !== null) {
+		if (localStorage.getItem ('playlist') in PLAYLISTS)
+			playlist = localStorage.getItem ('playlist');
+	}
+
+	// If hash is set, override playlist and track
+	var url_track = parse_trackID (window.location.hash.substring(1));
+
+	if (url_track !== null) {
+		playlist = url_track.playlist;
+		track = url_track.track;
+	}
+
+	// Load playlist and track
+	loadNewPlaylist (playlist, track);
+};
