@@ -1,6 +1,5 @@
 # INIT file for Galaxy.moe
-import os
-
+import os, time
 from flask import Flask, render_template
 from galaxy import gala, kitsu, file
 
@@ -18,6 +17,9 @@ def create_app(test_config=None):
 		# load the test config if passed in
 		app.config.from_mapping(test_config)
 
+	@app.context_processor
+	def inject_year():
+		return dict(year=time.strftime('%Y'))
 
 	@app.errorhandler(404)
 	def not_found(error):
