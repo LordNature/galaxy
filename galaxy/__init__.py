@@ -25,6 +25,10 @@ def create_app(test_config=None):
 	def not_found(error):
 		return render_template('404.html'), 404
 
+	@app.errorhandler(500)
+	def not_found(error):
+		return render_template('500.html'), 500
+
 	# Calls gala.py and initializes the blueprint
 	# Read more: http://flask.pocoo.org/docs/1.0/blueprints/
 	app.register_blueprint(gala.bp)

@@ -31,7 +31,7 @@ def anime():
 	error = None
 	
 	try:
-		kitsu_data = fetch_user('Nature')['data'][0]
+		kitsu_data = fetch_user('Natur3e')['data'][0]
 		total_anime = mins_to_string(kitsu_data['attributes']['lifeSpentOnAnime'])
 	except IndexError:
 		kitsu_data = None
@@ -40,7 +40,7 @@ def anime():
 	if kitsu_data is None:
 		error = 'Kitsu API unreachable.'
 		flash(error)
-		abort(404)
+		abort(500)
 
 	return render_template('anime.html', kitsu=kitsu_data, totalAnimeTime=total_anime)
 

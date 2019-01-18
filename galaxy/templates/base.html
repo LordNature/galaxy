@@ -28,7 +28,7 @@
 		</header>
 		<main>
 			{% for message in get_flashed_messages() %}
-				<div class="flash">ERROR: {{ message }}</div>
+				<div class="flash"><b>ERROR:</b> {{ message }}</div>
 			{% endfor %}
 
 			{% block content %}
