@@ -106,21 +106,14 @@ function playNextTrack () {
 function playTrack (trackid) {
 	var track = g_playlist[trackid];
 
-	//row.appendChild(newContent);  
-	//var currentDiv = document.querySelector('.playlist'); 
-	//row.setAttribute('id', create_trackID(track));
 
 	if (document.querySelector('.selected'))
 		document.querySelector('.selected').classList.remove('selected');
 
-	//$('.playlist .selected').removeClass ('selected');
 
 
 	var trackelem = document.querySelectorAll(".playlist > div")[trackid];
 	trackelem.classList.add('selected');
-
-	//var trackelem = $('.playlist div').eq (trackid);
-	//trackelem.addClass ('selected');
 
 	window.location.hash = create_trackID(track);
 	audio.setAttribute('src', track.location);
@@ -129,9 +122,6 @@ function playTrack (trackid) {
 	audio.play();
 	trackelem.scrollIntoView({behavior: "smooth", block: "center"});
 
-	/*$('html, body').stop().animate ({
-		scrollTop: trackelem.offset().top - $('header').height()
-	}, 1000);*/
 }
 
 function loadNewPlaylist (playlist, track) {
@@ -166,18 +156,9 @@ function loadNewPlaylist (playlist, track) {
 
 			// add the newly created element and its content into the DOM 
 			var currentDiv = document.querySelector('.playlist'); 
-			//document.body.insertBefore(row, currentDiv); 
 			currentDiv.appendChild(row);
 
-			//row.textContent = track.creator + ' - ' + track.title;
 			row.setAttribute('id', create_trackID(track));
-
-			/*
-			var row = $('<div>');
-			row.text (track.creator + ' - ' + track.title);
-			row.attr ('id', create_trackID(track));*/
-
-			//row.appendTo ('.playlist');
 
 			(function (i) {
 				row.addEventListener('click', function (){
@@ -202,17 +183,6 @@ function loadNewPlaylist (playlist, track) {
 			playNextTrack();
 		}
 
-
-		/*var elements = $('.playlist div').filter (function (idx, elem) {
-			console.log(elem.id);
-			return elem.id == selected_track;
-		});*/
-
-		/*if (elements.length > 0) {
-			elements[0].click ();
-		} else {
-			
-		}*/
 	});
 
 };
