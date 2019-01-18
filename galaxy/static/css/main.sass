@@ -10,7 +10,6 @@ $gal01: rgba(39, 153, 200, 1)
 $gal02: #6cdd76 // Lt. Green
 $gal80: #FCFCFC // Very lt. grey
 
-//*
 @mixin scrollbar($size, $primary, $secondary: lighten($primary, 25%))
 	::-webkit-scrollbar
 		width:  $size
@@ -26,8 +25,7 @@ $gal80: #FCFCFC // Very lt. grey
 		scrollbar-face-color: $primary
 		scrollbar-track-color: $secondary
 
-@include scrollbar(.5em, $gal01)
-*//
+@include scrollbar(.5em, $bg)
 
 body
 	background-color: $bg
