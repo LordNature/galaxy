@@ -1,16 +1,16 @@
-/* GALAXY COMPRESSED
- * Version 2
- * Copyright 2018
- */
+/*! Copyright 2019 - Galaxy CSS v2 */
 
-// Variables
+// Color pallet
 $bg: #222
 $bg-alt: #111
-$gal01: rgba(39, 153, 200, 1)
-$gal02: #6cdd76 // Lt. Green
-$gal80: #FCFCFC // Very lt. grey
+$gal01: rgb(39, 153, 200) // lt. blue
+$gal02: rgb(108, 221, 118) // Lt. Green
+$gal80: rgb(252, 252, 252) // Very lt. grey
 
-@mixin scrollbar($size, $primary, $secondary: lighten($primary, 25%))
+@mixin scrollbar($size, $primary, $secondary: lighten($primary, 5%))
+	$primary: adjust-color($primary, $blue: 7)
+	$secondary: adjust-color($secondary, $blue: 7)
+
 	::-webkit-scrollbar
 		width:  $size
 		height: $size
@@ -25,22 +25,23 @@ $gal80: #FCFCFC // Very lt. grey
 		scrollbar-face-color: $primary
 		scrollbar-track-color: $secondary
 
+	*
+		scrollbar-color: $primary $secondary
+
 @include scrollbar(.5em, $bg)
 
 body
 	background-color: $bg
 	font-family: "Courier New", Courier, monospace
+	font-size: 1rem
 	color: $gal01
 	line-height: 1.6
-	-webkit-font-smoothing: antialiased
-	font-size: 14px
 
 h1, h2, h3
 	line-height: 1.2
 	color: $gal01
 
 main
-	//margin: 40px auto
 	margin: 2em auto
 	max-width: 800px
 	padding: 0 10px
