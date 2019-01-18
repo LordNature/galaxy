@@ -17,7 +17,7 @@ const PLAYLISTS = {
 
 const DEFAULT_PLAYLIST = 'VIP';
 
-// Creates encoded URI for location hash
+// Encodes location URI
 function create_trackID(track) {
 	let playlist = document.querySelector('#splaylist').value;
 	let trackID = track.creator + ' - ' + track.title;
@@ -26,7 +26,7 @@ function create_trackID(track) {
 	return encodeURIComponent(playlist) + ':' + trackID;
 }
 
-// Decodes encoded URI
+// Decodes location URI
 function parse_trackID(trackID) {
 	let pieces = trackID.split(':');
 	let playlist = null;
@@ -83,6 +83,8 @@ function load_XML(playlistURL, callback) {
 	xhttp.send();
 }
 
+// clean-up below:
+
 function playNextTrack () {
 	if (g_playlist === null)
 		return;
@@ -99,6 +101,8 @@ function playNextTrack () {
 		g_previous.shift ();
 		g_previous_idx -= 1;
 	}
+
+	localStorage['volume'] = audio.volume;
 
 	playTrack (g_previous[g_previous_idx]);
 }
