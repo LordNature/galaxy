@@ -31,7 +31,7 @@ def anime():
 	error = None
 	
 	try:
-		kitsu_data = fetch_user('Natur3e')['data'][0]
+		kitsu_data = fetch_user('Nature')['data'][0]
 		total_anime = mins_to_string(kitsu_data['attributes']['lifeSpentOnAnime'])
 	except IndexError:
 		kitsu_data = None
