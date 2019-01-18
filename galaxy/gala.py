@@ -47,9 +47,9 @@ def anime():
 # Music area
 @bp.route('/music')
 def music():
-	return render_template('music.html', music=fetch_line('galaxy/static/videos.txt'), oblivion=fetch_line('galaxy/static/phrase.txt'))
+	return render_template('music.html', year=year, music=fetch_line('galaxy/static/videos.txt'), oblivion=fetch_line('galaxy/static/phrase.txt'))
 
 # Aersia music
 @bp.route('/vip')
 def vip():
-	return render_template('vip.html')
+	return render_template('vip.html', year=year)
