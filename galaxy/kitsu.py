@@ -36,7 +36,6 @@ def mins_to_string(mins):
 		mins %= date[name]
 	return result
 
-# REALLY INEFFICIENT ATM
 def watch_data(id):
 	response = requests.get(
 		'https://kitsu.io/api/edge/users/' + id + '/library-entries?filter[status]=current&page[limit]=5&page[offset]=0',
@@ -60,20 +59,21 @@ def anime_data(anime_id):
 		return json.loads(response.content.decode('utf-8'))['data']['attributes']
 	else:
 		return None	
-
+		
+latest = []
 def parse_anime(kitsuID):
-	watchlist = watch_data(kitsuID)['data']
+	global latest
 
-	latest = []
-
-	for anime in watchlist:
-		attr = anime_data(anime['id'])
-		latest.append({
-				'title': attr['canonicalTitle'],
-				'episodes_watched': anime['attributes']['progress'],
-				'episodes': attr['episodeCount'],
-				'last_watched': anime['attributes']['updatedAt'],
-				'img': attr['posterImage']['original'],
-				'slug': attr['slug']
-			})
+	if not latest:
+		watchlist = watch_data(kitsuID)['data']
+		for anime in watchlist:
+			attr = anime_data(anime['id'])
+			latest.append({
+					'title': attr['canonicalTitle'],
+					'episodes_watched': anime['attributes']['progress'],
+					'episodes': attr['episodeCount'],
+					'last_watched': anime['attributes']['updatedAt'],
+					'img': attr['posterImage']['original'],
+					'slug': attr['slug']
+				})
 	return latest
