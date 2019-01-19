@@ -9,7 +9,7 @@ def fetch_user(username):
 			'Accept': 'application/vnd.api+json'
 		})
 	if response.status_code == 200:
-		return json.loads(response.content.decode('utf-8'))
+		return json.loads(response.content.decode('utf-8'))['data'][0]
 	else:
 		return None
 
@@ -35,3 +35,45 @@ def mins_to_string(mins):
 			result.append(str(time) + " " + name + "s")
 		mins %= date[name]
 	return result
+
+# REALLY INEFFICIENT ATM
+def watch_data(id):
+	response = requests.get(
+		'https://kitsu.io/api/edge/users/' + id + '/library-entries?filter[status]=current&page[limit]=5&page[offset]=0',
+		headers = {
+			'Content-Type': 'application/vnd.api+json',
+			'Accept': 'application/vnd.api+json'
+		})
+	if response.status_code == 200:
+		return json.loads(response.content.decode('utf-8'))
+	else:
+		return None
+
+def anime_data(anime_id):
+	response = requests.get(
+		'https://kitsu.io/api/edge/library-entries/' + anime_id + '/anime',
+		headers = {
+			'Content-Type': 'application/vnd.api+json',
+			'Accept': 'application/vnd.api+json'
+		})
+	if response.status_code == 200:
+		return json.loads(response.content.decode('utf-8'))['data']['attributes']
+	else:
+		return None	
+
+def parse_anime(kitsuID):
+	watchlist = watch_data(kitsuID)['data']
+
+	latest = []
+
+	for anime in watchlist:
+		attr = anime_data(anime['id'])
+		latest.append({
+				'title': attr['canonicalTitle'],
+				'episodes_watched': anime['attributes']['progress'],
+				'episodes': attr['episodeCount'],
+				'last_watched': anime['attributes']['updatedAt'],
+				'img': attr['posterImage']['original'],
+				'slug': attr['slug']
+			})
+	return latest
