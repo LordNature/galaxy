@@ -1,4 +1,4 @@
-// converted to native js
+// aersia playlist js
 const audio = document.querySelector('audio');
 
 let g_playlist = null;
@@ -85,7 +85,7 @@ function load_XML(playlistURL, callback) {
 
 // clean-up below:
 
-function playNextTrack () {
+function play_next() {
 	if (g_playlist === null)
 		return;
 
@@ -104,31 +104,26 @@ function playNextTrack () {
 
 	localStorage['volume'] = audio.volume;
 
-	playTrack (g_previous[g_previous_idx]);
+	play_track (g_previous[g_previous_idx]);
 }
 
-function playTrack (trackid) {
-	var track = g_playlist[trackid];
-
+function play_track(trackID) {
+	var track = g_playlist[trackID];
 
 	if (document.querySelector('.selected'))
 		document.querySelector('.selected').classList.remove('selected');
 
-
-
-	var trackelem = document.querySelectorAll(".playlist > div")[trackid];
+	var trackelem = document.querySelectorAll(".playlist > div")[trackID];
 	trackelem.classList.add('selected');
 
 	window.location.hash = create_trackID(track);
 	audio.setAttribute('src', track.location);
-	//$('audio').attr ('src', track.location);
-	//$('audio').trigger ('play');
 	audio.play();
-	trackelem.scrollIntoView({behavior: "smooth", block: "center"});
 
+	trackelem.scrollIntoView({behavior: "smooth", block: "center"});
 }
 
-function loadNewPlaylist (playlist, track) {
+function load_playlist(playlist, track) {
 	var playlistURL = PLAYLISTS[playlist];
 	var selected_track = track;
 
@@ -166,7 +161,7 @@ function loadNewPlaylist (playlist, track) {
 
 			(function (i) {
 				row.addEventListener('click', function (){
-					playTrack(i);
+					play_track(i);
 				}); 
 			}) (i);
 		}
@@ -184,7 +179,7 @@ function loadNewPlaylist (playlist, track) {
 		if (selection != 0) {
 			selection.click();
 		} else {
-			playNextTrack();
+			play_next();
 		}
 
 	});
@@ -203,20 +198,20 @@ function populatePlaylistOptions () {
 
 window.onload = function() {
 	audio.addEventListener('error', function (){
-		playNextTrack();
+		play_next();
 	});
 
 	audio.addEventListener('ended', function (){
-		playNextTrack();
+		play_next();
 	});
 
 	document.querySelector('.next').addEventListener('click', function (){
-		playNextTrack(true);
+		play_next(true);
 	}); 
 
 	document.querySelector('#splaylist').addEventListener('change', function (){
 		var playlist = document.querySelector('#splaylist').value;
-		loadNewPlaylist (playlist, '');
+		load_playlist (playlist, '');
 	}); 
 
 	populatePlaylistOptions ();
@@ -243,5 +238,5 @@ window.onload = function() {
 	}
 
 	// Load playlist and track
-	loadNewPlaylist (playlist, track);
+	load_playlist (playlist, track);
 };
