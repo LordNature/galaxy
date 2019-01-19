@@ -3,10 +3,21 @@
 	<div class="terminal">
 		<h1>Kitsu Anime List</h1>
 		<p>
+			<p><img src="{{ kitsu['attributes']['avatar']['original'] }}" style="border-radius: 50%"></p>
 			{{ kitsu['attributes']['name'] }}
 			<br><br>
 			{{ ', '.join(totalAnimeTime) }}
+			<br><br>
+			{% for anime in watchlist %}
+			<div class="panel">
+				<a href="https://kitsu.io/anime/{{ anime['slug'] }}"><img src="{{ anime['img'] }}" style="max-height: 150px"/></a>
+				<div class="caption">
+					<h4>{{ anime['title'] }}</h4>
+					<p>Watched {{ anime['episodes_watched'] }} out of {{ anime['episodes'] }} episodes.</p>
+					<p>Last updated: {{ anime['last_watched'] }}</p>
+				</div>
+			</div>
+			{% endfor %}
 		</p>
-		<p><img src="{{ kitsu['attributes']['avatar']['original'] }}" style="border-radius: 50%"></p>
 	</div>
 {% endblock %}

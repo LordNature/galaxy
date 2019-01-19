@@ -31,8 +31,9 @@ def anime():
 	error = None
 	
 	try:
-		kitsu_data = fetch_user('Nature')['data'][0]
+		kitsu_data = fetch_user('Nature')
 		total_anime = mins_to_string(kitsu_data['attributes']['lifeSpentOnAnime'])
+		watchlist = parse_anime(kitsu_data['id'])
 	except IndexError:
 		kitsu_data = None
 		total_anime = None
@@ -42,7 +43,7 @@ def anime():
 		flash(error)
 		abort(500)
 
-	return render_template('anime.html', kitsu=kitsu_data, totalAnimeTime=total_anime)
+	return render_template('anime.html', kitsu=kitsu_data, totalAnimeTime=total_anime, watchlist=watchlist)
 
 # Music area
 @bp.route('/music')
