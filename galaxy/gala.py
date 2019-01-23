@@ -1,8 +1,5 @@
-"""
-gala.py
--------
-Handles all pages and redirects for now
-"""
+# gala.py
+# Handles all pages and redirects for now
 
 import subprocess, re
 # Flask blueprinting services

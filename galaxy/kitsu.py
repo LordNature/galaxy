@@ -1,3 +1,5 @@
+# kitsu.py
+# Handles all kitsu functions for api
 import requests, json, collections
 
 # Fetches Kitsu API
