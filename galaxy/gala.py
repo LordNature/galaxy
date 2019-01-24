@@ -57,7 +57,7 @@ def vip():
 def upload():
 	if request.method == 'POST':
 		if 'file' not in request.files:
-			return 'No file in request.files'
+			return 'No file attached'
 
 		file = request.files['file']
 
@@ -69,7 +69,8 @@ def upload():
 
 			# Authenticated
 			if auth == True:
-				return upload_s3(file)
+				user = request.form['user']
+				return upload_s3(file, user)
 			
 			return 'Authentication failed. Error: {}'.format(auth)
 

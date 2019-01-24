@@ -21,7 +21,7 @@ def auth_check(request):
 	except Exception as e:
 		return e
 
-def upload_s3(file):
+def upload_s3(file, user):
 	s3 = boto3.client(
 		's3',
 		aws_access_key_id=app.config['S3_KEY'],
@@ -33,10 +33,10 @@ def upload_s3(file):
 	s3.upload_fileobj(
 		file,
 		app.config['S3_BUCKET'],
-		'ss/' + filename,
+		user + '/' + filename,
 		ExtraArgs={
 			'ACL': 'public-read',
 			'ContentType': file.content_type
 		}
 	)
-	return 'http://{}.s3.amazonaws.com/ss/{}'.format(app.config['S3_BUCKET'], filename)
+	return 'http://{}.s3.amazonaws.com/{}/{}'.format(app.config['S3_BUCKET'], user, filename)
