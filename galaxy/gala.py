@@ -66,19 +66,10 @@ def upload():
 
 		if file:
 			auth = auth_check(request)
-
-			# Authenticated
+			# Authentication
 			if auth == True:
 				user = request.form['user']
 				return upload_s3(file, user)
-			
 			return 'Authentication failed. Error: {}'.format(auth)
 
-			"""if(check == True):
-				check = 'Access Granted'
-				#link = upload_s3(file)
-				#check = str(link)
-			elif(check == False):
-				check = 'Access Denied'"""
-			#return "{}".format(check)
 	abort(405)
