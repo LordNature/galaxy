@@ -52,7 +52,7 @@ def music():
 def vip():
 	return render_template('vip.html')
 
-# rough draft of api
+# File Service API
 @bp.route('/upload', methods=('GET', 'POST'))
 def upload():
 	if request.method == 'POST':
