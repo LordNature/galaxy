@@ -4,11 +4,11 @@
 import subprocess, re
 # Flask blueprinting services
 from flask import (
-	Blueprint, flash, g, redirect, render_template, url_for, abort
+	Blueprint, flash, g, redirect, render_template, url_for, abort, request
 )
-
 from galaxy.kitsu import *
 from galaxy.file import *
+from galaxy.api import *
 
 bp = Blueprint('gala', __name__)
 #year = time.strftime('%Y')
@@ -51,3 +51,33 @@ def music():
 @bp.route('/vip')
 def vip():
 	return render_template('vip.html')
+
+# rough draft of api
+@bp.route('/upload', methods=('GET', 'POST'))
+def upload():
+	if request.method == 'POST':
+		if 'file' not in request.files:
+			return 'No file in request.files'
+
+		file = request.files['file']
+
+		if file.filename == None:
+			return 'File does not exist'
+
+		if file:
+			auth = auth_check(request)
+
+			# Authenticated
+			if auth == True:
+				return upload_s3(file)
+			
+			return 'Authentication failed. Error: {}'.format(auth)
+
+			"""if(check == True):
+				check = 'Access Granted'
+				#link = upload_s3(file)
+				#check = str(link)
+			elif(check == False):
+				check = 'Access Denied'"""
+			#return "{}".format(check)
+	abort(405)
