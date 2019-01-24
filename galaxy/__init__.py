@@ -38,5 +38,5 @@ def create_app(test_config=None):
 	# Read more: http://flask.pocoo.org/docs/1.0/blueprints/
 	app.register_blueprint(gala.bp)
 	app.add_url_rule('/', endpoint='index')
-
+	
 	return app
